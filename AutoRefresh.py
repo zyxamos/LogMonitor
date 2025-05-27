@@ -1,5 +1,6 @@
 import threading
 import time
+from os.path import splitext
 import sublime, sublime_plugin
 
 refreshThreads = {}
@@ -57,7 +58,35 @@ class AutoRefreshRememberFileCommand(sublime_plugin.TextCommand):
 				autoRefreshFiles.remove(curFileName)
 		
 		settings.set('files_with_auto_refresh_enabled_on_load', autoRefreshFiles)
-		
+
+class AutoRefreshRememberFileTypeCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+		curFileName = self.view.file_name()
+		if curFileName is None:
+			return
+
+		settings = sublime.load_settings('AutoRefresh.sublime-settings')
+		autoRefreshFileTypes = settings.get('file_types_auto_refresh')
+
+		if autoRefreshFileTypes is None or not isinstance(autoRefreshFileTypes, list):
+			autoRefreshFileTypes = []
+
+		file_extension = splitext(curFileName)[1]
+		if not file_extension:
+			return
+
+		global refreshThreads
+		refreshThreadForCurView = refreshThreads.get(self.view.id())
+		if refreshThreadForCurView is not None and refreshThreadForCurView.enabled:
+			# Autorefresh is currently enabled
+			if file_extension not in autoRefreshFileTypes:
+				autoRefreshFileTypes.append(file_extension)
+		else:
+			# Autorefresh is currently disabled
+			if file_extension in autoRefreshFileTypes:
+				autoRefreshFileTypes.remove(file_extension)
+
+		settings.set('file_types_auto_refresh', autoRefreshFileTypes)
 
 #Event handler for editor events
 class SublimeEventHandler(sublime_plugin.EventListener):
@@ -65,15 +94,32 @@ class SublimeEventHandler(sublime_plugin.EventListener):
 		disable_autorefresh_for_view(view)
 
 	def on_load(self, view):
-		settings = sublime.load_settings('AutoRefresh.sublime-settings')
-		autoRefreshFiles = settings.get('files_with_auto_refresh_enabled_on_load')
+		# Get file name and extension
+		curFileName = view.file_name()
+		if curFileName is None:
+			return
 
+		fileExt = splitext(curFileName)[1]
+		if not fileExt:
+			return
+		
+		# Get settings
+		settings = sublime.load_settings('AutoRefresh.sublime-settings')
+		
+		# File types based auto-refresh
+		autoRefreshTypes = settings.get('file_types_auto_refresh')
+		if autoRefreshTypes is None or not isinstance(autoRefreshTypes, (list)):
+			print("Invalid file_types_auto_refresh setting")
+			autoRefreshTypes = []
+		elif fileExt in autoRefreshTypes:
+			enable_autorefresh_for_view(view)
+
+		# File names based auto-refresh
+		autoRefreshFiles = settings.get('files_with_auto_refresh_enabled_on_load')
 		if autoRefreshFiles is None or not isinstance(autoRefreshFiles, (list)):
 			print("Invalid files_with_auto_refresh_enabled_on_load setting")
 			autoRefreshFiles = []
-
-		curFileName = view.file_name()
-		if curFileName is not None and curFileName in autoRefreshFiles:
+		elif curFileName in autoRefreshFiles:
 			enable_autorefresh_for_view(view)
 
 
