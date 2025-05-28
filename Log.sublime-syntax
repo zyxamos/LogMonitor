@@ -1,0 +1,20 @@
+%YAML 1.2
+---
+name: Log
+file_extensions: [log, logs]
+scope: text.log
+
+contexts:
+  main:
+    - include: timestamps
+    - include: log_levels
+    - match: '.*'
+      scope: text.log
+
+  timestamps:
+    - match: '\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}'
+      scope: constant.numeric.timestamp.log
+
+  log_levels:
+    - match: '\b(ERROR|WARN|INFO|DEBUG)\b'
+      scope: keyword.control.log

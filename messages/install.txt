@@ -1,7 +1,29 @@
-How to use AutoRefresh:
--> Open the file you want to refresh automatically.
--> From the commmand palette, use "Enable AutoRefresh" to enable.
--> Use "Disable AutoRefresh" to stop the refreshing.
+AutoRefresh - Automatic Log File Monitoring
+==========================================
 
-Use "Autorefresh: Remember the current setting for this file" in the command palette to automatically enable AutoRefresh when a specific file is opened.
-Settings, such as refresh rate, are available under "Preferences->AutoRefresh"
+USAGE
+-----
+
+**Automatic Control**
+1. Open your log file, and set its syntax to "Log" (View → Syntax → Log)
+2. The *.log or *.logs files will be automatically recognized as Log syntax
+3. AutoRefresh starts automatically with intelligent cursor management
+
+**Manual Control**
+- Command Palette → "Enable AutoRefresh" (start monitoring)
+- Command Palette → "Disable AutoRefresh" (stop monitoring)
+
+CONFIGURATION
+-------------
+
+Create AutoRefresh.sublime-settings in User package folder:
+{
+    "auto_refresh_rate": 3
+}
+
+FEATURES
+--------
+
+- A project-defined syntax ("Log") and automatically applies it to *.log and *.logs files
+- Monitors files with "Log" syntax automatically
+- Smart cursor behavior: follows new content when at file end, preserves position when reading middle content

@@ -6,9 +6,5 @@
 	{
 		"caption": "Disable Autorefresh",
 		"command": "disable_auto_refresh"
-	},
-	{
-		"caption": "Autorefresh: Remember the current setting for this file",
-		"command": "auto_refresh_remember_file"
 	}
 ]

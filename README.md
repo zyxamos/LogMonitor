@@ -1,21 +1,54 @@
 # AutoRefresh
-Auto Refresh allows users to get Sublime text to reload files in the editor every x seconds (default 3 seconds)
-This is useful for monitoring logs which get continuously edited, even while the editor is not in focus.
 
-For example: You are running a fullscreen application and want to view the applications log on a different monitor.
-By default, Sublime text will only reload the file once its window comes back into focus. 
-AutoRefresh can be used here to automatically reload the file, without having to switch windows.
+Auto Refresh allows users to get Sublime Text to automatically reload files in the editor every few seconds. This is particularly useful for monitoring log files that get continuously updated, even while the editor is not in focus.
 
-Usage:
-From the commmand palette, use Enable AutoRefresh to enable. Similarly, use Disable AutoRefresh to stop the plugin.
-Use "Autorefresh: Remember the current setting for this file" to automatically enable AutoRefresh when a file is opened.
-To change the interval at which the file is refreshed: create a settings file called AutoRefresh.sublime-settings and set the setting auto_refresh_rate to how many seconds long you want the interval to be.
+## Use Case
 
+Perfect for monitoring real-time logs on a secondary monitor while running fullscreen applications. By default, Sublime Text only reloads files when its window comes back into focus. AutoRefresh eliminates this limitation by providing continuous file monitoring.
 
-## File-based AutoRefresh
+## Features
 
-AutoRefresh supports two types of automatic file monitoring via the configuration in `Auto Refresh.sublime-settings` file:
+- **Log Syntax Support**: Enables auto-refresh for files using the project-defined `Log` syntax (*.log and *.logs files are automatically recognized)
+- **Intelligent Cursor Management**: Automatically follows new content when cursor is at file end, preserves reading position when cursor is elsewhere
 
-- **File Name Based**: Configure `files_with_auto_refresh_enabled_on_load` with file paths. These specific files will auto-refresh when opened.
+## Usage
 
-- **File Type Based**: Configure `file_types_auto_refresh` with file extensions like `[".log"]`. All matching file types will auto-refresh when opened.
+### Automatic Log Monitoring
+
+AutoRefresh automatically enables for files using the **Log syntax**:
+
+- **Automatic Syntax Recognition**: Files with *.log and *.logs extensions are automatically recognized as Log syntax
+- **Manual Syntax Change**: Or manually set syntax to "Log" (View → Syntax → Log)
+- **Smart Behavior**
+   - If cursor is at the end of file → automatically scrolls to show new content
+   - If cursor is in the middle → preserves your reading position
+
+### Manual Control
+
+From the command palette:
+
+- **Enable AutoRefresh**: Start monitoring the current file
+- **Disable AutoRefresh**: Stop monitoring the current file
+
+## Configuration
+
+### Refresh Interval
+
+Create `AutoRefresh.sublime-settings` in your User package folder:
+
+```json
+{   
+    "auto_refresh_rate": 3
+}
+```
+
+- `auto_refresh_rate`: Refresh interval in seconds (default: 3)
+
+### Log Syntax Recognition
+
+The included `Log.sublime-syntax` file defines `file_extensions: [log, logs]`, which automatically applies Log syntax to *.log and *.logs files when opened in Sublime Text. This enables seamless auto-refresh functionality without manual syntax configuration.
+
+## Credits
+
+This project is based on [AutoRefresh](https://github.com/Waterflames/AutoRefresh) by Waterflames.
+Modifications have been made to focus on log file monitoring with intelligent cursor management.
