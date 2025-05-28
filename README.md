@@ -1,10 +1,10 @@
-# AutoRefresh
+# LogMonitor
 
-Auto Refresh allows users to get Sublime Text to automatically reload files in the editor every few seconds. This is particularly useful for monitoring log files that get continuously updated, even while the editor is not in focus.
+`LogMonitor` allows users to get Sublime Text to automatically reload files in the editor every few seconds. This is particularly useful for monitoring log files that get continuously updated, even while the editor is not in focus.
 
 ## Use Case
 
-Perfect for monitoring real-time logs on a secondary monitor while running fullscreen applications. By default, Sublime Text only reloads files when its window comes back into focus. AutoRefresh eliminates this limitation by providing continuous file monitoring.
+Perfect for monitoring real-time logs on a secondary monitor while running fullscreen applications. By default, Sublime Text only reloads files when its window comes back into focus. `LogMonitor` eliminates this limitation by providing continuous file monitoring.
 
 ## Features
 
@@ -15,7 +15,7 @@ Perfect for monitoring real-time logs on a secondary monitor while running fulls
 
 ### Automatic Log Monitoring
 
-AutoRefresh automatically enables for files using the **Log syntax**:
+`LogMonitor` automatically enables for files using the **Log syntax**:
 
 - **Automatic Syntax Recognition**: Files with *.log and *.logs extensions are automatically recognized as Log syntax
 - **Manual Syntax Change**: Or manually set syntax to "Log" (View → Syntax → Log)
@@ -27,22 +27,22 @@ AutoRefresh automatically enables for files using the **Log syntax**:
 
 From the command palette:
 
-- **Enable AutoRefresh**: Start monitoring the current file
-- **Disable AutoRefresh**: Stop monitoring the current file
+- **Enable Monitoring**: Start monitoring the current file
+- **Disable Monitoring**: Stop monitoring the current file
 
 ## Configuration
 
 ### Refresh Interval
 
-Create `AutoRefresh.sublime-settings` in your User package folder:
+Create `LogMonitor.sublime-settings` in your User package folder:
 
 ```json
 {   
-    "auto_refresh_rate": 3
+    "auto_refresh_rate": 5
 }
 ```
 
-- `auto_refresh_rate`: Refresh interval in seconds (default: 3)
+- `auto_refresh_rate`: Refresh interval in seconds (default: 5)
 
 ### Log Syntax Recognition
 

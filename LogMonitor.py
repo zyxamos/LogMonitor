@@ -6,12 +6,12 @@ refreshThreads = {}
 
 # Enables autorefresh for the specified view
 def enable_autorefresh_for_view(view):
-	settings = sublime.load_settings('AutoRefresh.sublime-settings')
+	settings = sublime.load_settings('LogMonitor.sublime-settings')
 	refreshRate = settings.get('auto_refresh_rate')
 
 	if refreshRate == None or not isinstance(refreshRate, (int, float)):
-		print("Invalid auto_refresh_rate setting, using default 3")
-		refreshRate = 3
+		print("Invalid auto_refresh_rate setting, using default 5")
+		refreshRate = 5
 
 	if refreshThreads.get(view.id()) is None or not refreshThreads.get(view.id()).enabled:
 		refreshThreads[view.id()] = RefreshThread(view, refreshRate)
@@ -28,11 +28,11 @@ def disable_autorefresh_for_view(view):
 
 
 # Commands
-class EnableAutoRefreshCommand(sublime_plugin.TextCommand):
+class EnableMonitoringCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		enable_autorefresh_for_view(self.view)
 
-class DisableAutoRefreshCommand(sublime_plugin.TextCommand):
+class DisableMonitoringCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		disable_autorefresh_for_view(self.view)
 
@@ -54,7 +54,7 @@ class SublimeEventHandler(sublime_plugin.EventListener):
 	def enable_auto_refresh_on_load(self, view):
 		# Only enable auto-refresh for Log syntax files
 		syntax = view.settings().get('syntax')
-		if syntax == "Packages/AutoRefresh/Log.sublime-syntax":
+		if syntax == "Packages/LogMonitor/Log.sublime-syntax":
 			enable_autorefresh_for_view(view)
 
 
@@ -72,7 +72,7 @@ class RefreshThread(threading.Thread):
 				if not self.view.is_dirty():  # Don't reload if user made changes
 					sublime.set_timeout(self.reload_and_goto_last_line, 1)
 			except Exception as e:
-				print("AutoRefresh error: {msg}".format(msg=e))
+				print("LogMonitor error: {msg}".format(msg=e))
 				self.enabled = False
 				break
 			time.sleep(self.refreshRate)

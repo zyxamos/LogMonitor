@@ -1,0 +1,10 @@
+[
+	{
+		"caption": "Enable Monitoring",
+		"command": "enable_monitoring"
+	},
+	{
+		"caption": "Disable Monitoring",
+		"command": "disable_monitoring"
+	}
+]

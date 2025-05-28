@@ -11,22 +11,22 @@
                 "children":
                 [
                     {
-                        "caption": "AutoRefresh",
+                        "caption": "LogMonitor",
                         "children":
                         [
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/AutoRefresh/AutoRefresh.sublime-settings"},
+                                "args": {"file": "${packages}/LogMonitor/LogMonitor.sublime-settings"},
                                 "caption": "Settings - Default"
                             },
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/User/Auto Refresh.sublime-settings"},
+                                "args": {"file": "${packages}/User/LogMonitor.sublime-settings"},
                                 "caption": "Settings – User"
                             },
                             {
                                 "command": "edit_settings",
-                                "args": {"base_file": "${packages}/Auto Refresh/AutoRefresh.sublime-settings", "default": ""},
+                                "args": {"base_file": "${packages}/LogMonitor/LogMonitor.sublime-settings", "default": ""},
                                 "caption": "Settings - Default & User"
                             },
                         ]

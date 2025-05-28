@@ -1,4 +1,4 @@
-AutoRefresh - Automatic Log File Monitoring
+LogMonitor - Automatic Log File Monitoring
 ==========================================
 
 USAGE
@@ -7,18 +7,18 @@ USAGE
 **Automatic Control**
 1. Open your log file, and set its syntax to "Log" (View → Syntax → Log)
 2. The *.log or *.logs files will be automatically recognized as Log syntax
-3. AutoRefresh starts automatically with intelligent cursor management
+3. LogMonitor starts automatically with intelligent cursor management
 
 **Manual Control**
-- Command Palette → "Enable AutoRefresh" (start monitoring)
-- Command Palette → "Disable AutoRefresh" (stop monitoring)
+- Command Palette → "Enable Monitoring" (start monitoring)
+- Command Palette → "Disable Monitoring" (stop monitoring)
 
 CONFIGURATION
 -------------
 
-Create AutoRefresh.sublime-settings in User package folder:
+Create LogMonitor.sublime-settings in User package folder:
 {
-    "auto_refresh_rate": 3
+    "auto_refresh_rate": 5
 }
 
 FEATURES
