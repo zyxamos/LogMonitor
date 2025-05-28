@@ -1,4 +1,5 @@
 {
    "auto_refresh_rate": 5,
-   "cursor_end_threshold": 30
+   "cursor_end_threshold": 30,
+   "scroll_distance_percentage": 15
 }

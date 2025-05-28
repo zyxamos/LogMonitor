@@ -37,12 +37,14 @@ Create `LogMonitor.sublime-settings` in your User package folder:
 ```json
 {   
     "auto_refresh_rate": 5,
-    "cursor_end_threshold": 30
+    "cursor_end_threshold": 30,
+    "scroll_distance_percentage": 15
 }
 ```
 
 - `auto_refresh_rate`: Refresh interval in seconds (default: 5)
 - `cursor_end_threshold`: Number of lines from end to consider cursor "at end" for auto-scrolling (default: 30)
+- `scroll_distance_percentage`: Percentage of viewport height to scroll down for visual feedback when moving to end (default: 15)
 
 ### Log Syntax Recognition
 

@@ -107,9 +107,29 @@ class RefreshThread(threading.Thread):
 			sublime.set_timeout(self.goto_last_line, 10)
 
 	def goto_last_line(self):
-		"""Move cursor to the last line of the file"""
+		"""Move cursor to the last line of the file and scroll down for visual feedback"""
 		if not self.view.is_loading():
+			# Move cursor to end of file
 			self.view.run_command("move_to", {"to": "eof", "extend": False})
+			
+			# Get scroll distance percentage from settings
+			settings = sublime.load_settings('LogMonitor.sublime-settings')
+			scroll_percentage = settings.get('scroll_distance_percentage')
+			
+			if scroll_percentage is None or not isinstance(scroll_percentage, (int, float)) or scroll_percentage < 0:
+				print("Invalid scroll_distance_percentage setting, using default 15")
+				scroll_percentage = 15
+			
+			# Calculate target viewport position
+			viewport_height = self.view.viewport_extent()[1]
+			cursor_point = self.view.sel()[0].begin()
+			cursor_y = self.view.text_to_layout(cursor_point)[1]
+			bottom_padding = viewport_height * (scroll_percentage / 100)
+			target_y = cursor_y - (viewport_height - bottom_padding)
+			target_y = max(0, target_y)
+
+			# Set the viewport position
+			self.view.set_viewport_position((0, target_y), animate=True)
 		else:
 			# Wait for file to finish loading
 			sublime.set_timeout(self.goto_last_line, 10)
