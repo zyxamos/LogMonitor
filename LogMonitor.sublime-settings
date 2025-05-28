@@ -1,3 +1,4 @@
 {
-   "auto_refresh_rate": 5
+   "auto_refresh_rate": 5,
+   "cursor_end_threshold": 30
 }

@@ -78,15 +78,22 @@ class RefreshThread(threading.Thread):
 			time.sleep(self.refreshRate)
 
 	def is_cursor_at_end(self):
-		"""Check if cursor is near the end of file (within 3 lines)"""
+		"""Check if cursor is near the end of file (within configurable lines)"""
 		if not self.view.sel():
 			return False
+		
+		settings = sublime.load_settings('LogMonitor.sublime-settings')
+		threshold = settings.get('cursor_end_threshold')
+		
+		if threshold is None or not isinstance(threshold, int) or threshold < 1:
+			print("Invalid cursor_end_threshold setting, using default 30")
+			threshold = 30
 		
 		cursor_row = self.view.rowcol(self.view.sel()[0].begin())[0]
 		total_rows = self.view.rowcol(self.view.size())[0]
 		
-		# If cursor is within 3 lines of the end, consider it "at end"
-		return (total_rows - cursor_row) <= 3
+		# If cursor is within threshold lines of the end, consider it "at end"
+		return (total_rows - cursor_row) <= threshold
 
 	def reload_and_goto_last_line(self):
 		"""Reload file and go to last line only if cursor was at end"""
