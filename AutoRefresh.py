@@ -94,6 +94,15 @@ class SublimeEventHandler(sublime_plugin.EventListener):
 		disable_autorefresh_for_view(view)
 
 	def on_load(self, view):
+		# Add a small delay to ensure settings are loaded properly
+		sublime.set_timeout(lambda: self.enable_auto_refresh_on_load(view), 50)
+	
+	def on_activated(self, view):
+		# Check if auto-refresh is already enabled for this view
+		if refreshThreads.get(view.id()) is None or not refreshThreads.get(view.id()).enabled:
+			sublime.set_timeout(lambda: self.enable_auto_refresh_on_load(view), 50)
+
+	def enable_auto_refresh_on_load(self, view):
 		# Get file name and extension
 		curFileName = view.file_name()
 		if curFileName is None:
@@ -113,6 +122,7 @@ class SublimeEventHandler(sublime_plugin.EventListener):
 			autoRefreshTypes = []
 		elif fileExt in autoRefreshTypes:
 			enable_autorefresh_for_view(view)
+			return
 
 		# File names based auto-refresh
 		autoRefreshFiles = settings.get('files_with_auto_refresh_enabled_on_load')
@@ -121,6 +131,7 @@ class SublimeEventHandler(sublime_plugin.EventListener):
 			autoRefreshFiles = []
 		elif curFileName in autoRefreshFiles:
 			enable_autorefresh_for_view(view)
+			return
 
 
 #Threading class that continuously reloads a file
